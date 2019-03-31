@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+    <script type="text/javascript" src="/static/assets/js/fontSize.min.js"></script>
+    <link rel="stylesheet" href="/static/assets/css/weui.min.css">
+    <link rel="stylesheet" href="/static/assets/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/static/assets/fonts/iconfont.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <style>
+        .code_box {
+            width: 4rem;
+            height: 4rem;
+            margin: 1rem auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="top"></div>
+<div class="user_info">
+    <div class="img_box"><img src="{$Think.session.userinfo.headimgurl}" alt=""></div>
+    <div>{$Think.session.userinfo.nickname}</div>
+</div>
+<div class="card_box">
+    {if $hasDefault}
+    <div id="refresh" onclick="getNewQrcode('{$hasDefault}')">
+        <div class="code_box">
+            <img src="" alt="" id="qrcode">
+        </div>
+        <div class="refresh_box"><span class="iconfont iconshuaxin"></span>点击刷新</div>
+    </div>
+    {else /}
+    <div id="no_card">
+        <div class="card_title">绑定卡</div>
+        <div class="no_card">您未设置默认卡</div>
+        <div class="iconfont iconqiabao"></div>
+    </div>
+    {/if}
+
+    {if $list}
+    <div class="my_card_btn"><a href="{:url('Card/mycard')}">我的卡</a></div>
+    {else /}
+    <div class="refresh_box" onclick="javascript:window.location.reload();"><span class="iconfont iconshuaxin"></span>点击刷新</div>
+    <div class="my_card_btn"><a href="{:url('Card/cardAdd')}">去绑卡</a></div>
+    {/if}
+
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/static/assets/js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="/static/assets/js/jquery-weui.min.js"></script>
+<script type="text/javascript" src="/static/assets/js/common.js"></script>
+<script type="text/javascript">
+
+    var isclick = true,hasDefault = "{$hasDefault}";
+
+    function getNewQrcode() {
+        if(isclick) {
+            isclick = false;
+            $.ajax({
+                url:"{:url('Card/cardid2data')}",
+                type:"POST",
+                dataType:"JSON",
+                data:{card_no:hasDefault},
+                success:function(res) {
+                    if(res.code == 1) {
+                        var qrcode_url = "<?php echo $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/index/card/indexQrcode?data=';?>" + encodeURIComponent(res.data.data);
+                        $("#qrcode").attr('src',qrcode_url);
+                    }else {
+                        $.toast('获取二维码失败','cancel');
+                    }
+                    isclick = true;
+                },
+                error:function(res) {
+                    $.toast('二维码接口错误','cancel');
+                    isclick = true;
+                }
+            })
+        }
+
+    }
+
+    $(document).ready(function () {
+        var bind = "{$bind}",hasDefault = "{$hasDefault}";
+        if(bind == 1) {
+            $.toast("绑卡成功");
+        }
+        if(hasDefault) {
+            $.ajax({
+                url:"{:url('Card/cardid2data')}",
+                type:"POST",
+                dataType:"JSON",
+                data:{card_no:hasDefault},
+                success:function(res) {
+                    if(res.code == 1) {
+                        var qrcode_url = "<?php echo $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/index/card/indexQrcode?data=';?>" + encodeURIComponent(res.data.data);
+                        $("#qrcode").attr('src',qrcode_url);
+                    }else {
+                        $.toast('获取二维码失败','cancel');
+                    }
+                },
+                error:function(res) {
+                    $.toast('二维码接口错误','cancel');
+                }
+            })
+        }
+
+    })
+</script>

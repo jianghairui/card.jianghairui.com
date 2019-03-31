@@ -1,0 +1,9 @@
+.idea
+composer.lock
+*.log
+config/database.php
+public/cert
+.vscode
+*.log
+.env
+.DS_Store

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的卡详情</title>
+    <script type="text/javascript" src="/static/assets/js/fontSize.min.js"></script>
+    <link rel="stylesheet" href="/static/assets/css/weui.min.css">
+    <link rel="stylesheet" href="/static/assets/fonts/iconfont.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <style type="text/css">
+        body {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+{if $info['master_id'] == $openid}
+    <div class="card_list">
+        <div class="card_item">
+            <div class="card_address">{$info.address}</div>
+            <div class="card_num">{$info.card_no}</div>
+            <div class="card_tips">备注：{$info.desc}</div>
+            <div class="card_tips">{$info.create_time|date="Y/m/d"}</div>
+            <div class="card_default" style="display: block"><span>持卡人: {$info.nickname}</span></div>
+        </div>
+    </div>
+
+    <div class="btn_box">
+        <div class="btn_item" id="recovery"  onclick="card_back('{$info.id}')">
+            <span class="icon_box"><span class="iconfont iconshanchu1"></span></span>
+            <span>回收</span>
+        </div>
+        <div class="btn_item" id="del" onclick="card_del('{$info.id}')">
+            <span class="icon_box"><span class="iconfont iconchuyidong"></span></span>
+            <span>删除</span>
+        </div>
+        <div class="btn_item" id="card_mod" onclick="card_mod('{$info.id}')">
+            <span class="icon_box"><span class="iconfont iconxiugai"></span></span>
+            <span>修改</span>
+        </div>
+    </div>
+    <div class="my_card_btn card_add"><a href="javascript:void (0)" onclick="sendOut('{$info.id}')">发卡</a></div>
+
+{else /}
+    <div class="card_list">
+        <div class="card_item">
+            <div class="card_address">{$info.address}</div>
+            <div class="card_num">**** **** **** *<?php echo substr($info['card_no'],-3);?></div>
+            <div class="card_tips">备注：{$info.desc}</div>
+            <div class="card_tips">{$info.create_time|date="Y/m/d"}</div>
+            <div class="card_default" style="display: block"><span>持卡人: {$info.nickname}</span></div>
+        </div>
+    </div>
+
+    <div class="my_card_btn card_add"><a href="javascript:void (0)"  onclick="card_unbind('{$info.id}')">删除</a></div>
+
+{/if}
+
+
+</body>
+</html>
+<script type="text/javascript" src="/static/assets/js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="/static/assets/js/jquery-weui.min.js"></script>
+<script type="text/javascript" src="/static/assets/js/common.js"></script>
+<script type="text/javascript">
+
+        window.alert = function(name){
+            var iframe = document.createElement("IFRAME");
+            iframe.style.display="none";
+            iframe.setAttribute("src", 'data:text/plain,');
+            document.documentElement.appendChild(iframe);
+            window.frames[0].window.alert(name);
+            iframe.parentNode.removeChild(iframe);
+        };
+
+        window.confirm = function (message) {
+            var iframe = document.createElement("IFRAME");
+            iframe.style.display = "none";
+            iframe.setAttribute("src", 'data:text/plain,');
+            document.documentElement.appendChild(iframe);
+            var alertFrame = window.frames[0];
+            var result = alertFrame.window.confirm(message);
+            iframe.parentNode.removeChild(iframe);
+            return result;
+        };
+
+        var isclick = true;
+
+        function sendOut(id) {
+            window.location.href = "{:url('Card/sendOut')}" + '?id=' + id;
+        }
+
+        function card_back(id) {
+            if(confirm('确定收回此卡吗?')) {
+                if(isclick) {
+                    isclick = false;
+                    $.ajax({
+                        url:"{:url('Card/cardBack')}",
+                        type:"POST",
+                        dataType:"json",
+                        data:{card_id:id},
+                        success:function (res) {
+                            if(res.code == 1) {
+                                $.toast('回收成功');
+                                setTimeout(function () {
+                                    window.location.href = "{:url('Card/mycard')}"
+                                }, 1200)
+                            }else {
+                                $.toast(res.data, 'cancel')
+                            }
+                            isclick = true;
+                        },
+                        error:function (res) {
+                            alert('系统错误')
+                            isclick = true;
+                        }
+                    })
+                }
+            }
+        }
+
+        function card_del(id) {
+            if(confirm('确定要删除此卡吗?')) {
+                if(isclick) {
+                    isclick = false;
+                    $.ajax({
+                        url:"{:url('Card/cardDel')}",
+                        type:"POST",
+                        dataType:"json",
+                        data:{card_id:id},
+                        success:function (res) {
+                            if(res.code == 1) {
+                                $.toast('删除成功');
+                                setTimeout(function () {
+                                    window.location.href = "{:url('Card/mycard')}"
+                                }, 1200)
+                            }else {
+                                $.toast(res.data, 'cancel')
+                            }
+                            isclick = true;
+                        },
+                        error:function (res) {
+                            alert('系统错误')
+                            isclick = true;
+                        }
+                    })
+                }
+            }
+
+
+        }
+
+        function card_mod(id) {
+            window.location.href = "{:url('Card/cardMod')}" + '?id=' + id;
+        }
+
+        function card_unbind(id) {
+            if(confirm('确定删除此卡吗?')) {
+                if(isclick) {
+                    isclick = false;
+                    $.ajax({
+                        url:"{:url('Card/unbind')}",
+                        type:"POST",
+                        dataType:"json",
+                        data:{card_id:id},
+                        success:function (res) {
+                            if(res.code == 1) {
+                                $.toast('删除成功');
+                                setTimeout(function () {
+                                    window.location.href = "{:url('Card/mycard')}"
+                                }, 1200)
+                            }else {
+                                $.toast(res.data, 'cancel')
+                            }
+                            isclick = true;
+                        },
+                        error:function (res) {
+                            alert('系统错误')
+                            isclick = true;
+                        }
+                    })
+                }
+            }
+        }
+
+
+
+</script>

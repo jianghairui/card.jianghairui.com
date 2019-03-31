@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加我的卡</title>
+    <script type="text/javascript" src="/static/assets/js/fontSize.min.js"></script>
+    <link rel="stylesheet" href="/static/assets/css/weui.min.css">
+    <link rel="stylesheet" href="/static/assets/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/static/assets/fonts/iconfont.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+</head>
+<body>
+<div class="top"></div>
+<form class="user_info add_box" action="">
+    <div class="add_input"><label>卡号：</label><input type="number" placeholder="请输入卡号" minlength="4" maxlength="25" id="card_num">
+    </div>
+    <div class="add_input"><label>地址：</label><input type="text" placeholder="请输入地址" maxlength="255" id="card_add"></div>
+    <div class="add_input textarea"><label>备注：</label><textarea name="desc"  placeholder="备注" id="card_tips" maxlength="255"></textarea></div>
+    <button type="submit" class="my_card_btn" id="add_btn"><a href="javascript:void (0)">保存</a></button>
+</form>
+</body>
+</html>
+<script type="text/javascript" src="/static/assets/js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="/static/assets/js/jquery-weui.min.js"></script>
+<script type="text/javascript" src="/static/assets/js/common.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.toast.prototype.defaults.duration = 1500;
+
+        var isclick = true;
+        $('#add_btn').click(function () {
+            var card_num = $('#card_num').val();
+            var card_add = $('#card_add').val();
+            var card_tips = $('#card_tips').val();
+            if (card_num.length < 4) {
+                $.toast('卡号不能为空且不低于4位', 'cancel')
+            } else if (card_add == '') {
+                $.toast('请输入地址', 'cancel')
+            } else if (card_tips == '') {
+                $.toast('请添加备注', 'cancel')
+            } else {
+                if(isclick) {
+                    isclick = false;
+                    $.ajax({
+                        url:"{:url('Card/cardAddPost')}",
+                        type:"POST",
+                        dataType:"json",
+                        data:{card_no:card_num,address:card_add,desc:card_tips},
+                        success:function (res) {
+                            if(res.code == 1) {
+                                $.toast('添加成功');
+                                setTimeout(function () {
+                                    window.location.href = "{:url('Card/mycard')}"
+                                }, 1200)
+                            }else {
+                                $.toast(res.data, 'cancel')
+                            }
+                            isclick = true;
+                            // alert(JSON.stringify(res))
+
+                        },
+                        error:function (res) {
+                            alert('系统错误')
+                            isclick = true;
+                        }
+                    })
+                }
+
+            }
+        })
+    })
+</script>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的卡</title>
+    <script type="text/javascript" src="/static/assets/js/fontSize.min.js"></script>
+    <link rel="stylesheet" href="/static/assets/css/weui.min.css">
+    <link rel="stylesheet" href="/static/assets/fonts/iconfont.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <style type="text/css">
+        body{
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="card_list">
+    {foreach $list as $li}
+    <div class="card_item">
+        <input type="hidden" name="card_no" value="{$li.card_no}">
+        <input type="hidden" name="id" value="{$li.id}">
+        <div class="card_address">{$li.address}</div>
+        <div class="card_num">
+            {$li.card_no}
+        </div>
+        <div class="card_tips">备注：{$li.desc}</div>
+        <div class="card_tips">{$li.create_time|date="Y/m/d"}</div>
+        {if $hasDefault == $li['card_no']}
+            <div class="card_btn" style="">默认卡</div>
+        {else /}
+            <div class="card_btn">设置默认卡</div>
+        {/if}
+        <div class="card_default" style="display: block"><span>持卡人: {$li.nickname}</span></div>
+
+    </div>
+    {/foreach}
+
+</div>
+<div class="my_card_btn card_add"><a href="{:url('Card/cardAdd')}">添加</a></div>
+</body>
+</html>
+<script type="text/javascript" src="/static/assets/js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="/static/assets/js/jquery-weui.min.js"></script>
+<script type="text/javascript" src="/static/assets/js/common.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var isclick = true;
+        // 设置默认卡
+        $('.card_list').on('click', '.card_btn', function (e) {
+            e.stopPropagation();
+
+            var card_num = $(this).parent().find("input[name='card_no']").val(),_this = $(this);
+            if(isclick) {
+                isclick = false;
+                $.ajax({
+                    url:"{:url('Card/setDefault')}",
+                    type:"POST",
+                    dataType:"json",
+                    data:{
+                        card_no:card_num
+                    },
+                    success:function (res) {
+                        if(res.code == 1) {
+                            $('.card_btn').text('设置默认卡');
+                            _this.text('默认卡');
+                        }else {
+                            $.toast(res.data, 'cancel')
+                        }
+                        isclick = true;
+
+                    },
+                    error:function (res) {
+                        $.toast(res.data, '系统错误');
+                        isclick = true;
+                    }
+                })
+            }
+
+        });
+
+        $('.card_list').on('click', '.card_item', function (e) {
+            var id = $(this).find("input[name='id']").val();
+            window.location.href='{:url("Card/cardDetail")}' + '?id=' + id;
+        })
+    })
+</script>

@@ -1,0 +1,307 @@
+* {
+    -webkit-overflow-scrolling: touch;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+}
+
+body {
+    height: 100%;
+    background-color: #F3F3F3;
+}
+
+input {
+    border: 0;
+    outline: none;
+    background: none;
+    width: 100%;
+    height: 100%;
+}
+
+textarea {
+    border: 0;
+    outline: none;
+    background: none;
+    width: 100%;
+    height: 100%;
+}
+
+button {
+    display: block;
+    border: 0;
+    background: none;
+}
+
+.weui_toast {
+    font-size: 12px;
+}
+
+.weui_icon_toast {
+    font-size: 14px;
+}
+
+.weui_icon_toast:before {
+    font-size: 38px;
+}
+
+/*首页部分*/
+.top {
+    height: 2.4rem;
+    background: linear-gradient(0deg, rgba(0, 198, 251, 0.69), rgba(0, 91, 234, 0.69));
+}
+
+.user_info {
+    margin: -2rem auto 0.31rem auto;
+    width: 93.3%;
+    background-color: #fff;
+    padding: 0.3rem 0 0.55rem 0;
+    font-size: 14px;
+    color: #222;
+    border-radius: 0.1rem;
+    box-shadow: 0 5px 0.4rem 0 rgba(221, 220, 219, 0.82);
+    text-align: center;
+}
+
+.img_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: 1;
+    margin: 0 auto 0.3rem auto;
+}
+
+.img_box img {
+    width: 100%;
+}
+
+.card_box {
+    width: 93.3%;
+    background-color: #fff;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 0.1rem;
+    box-shadow: 0 5px 0.4rem 0 rgba(221, 220, 219, 0.82);
+    color: #222;
+}
+
+.card_box .card_title {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0.3rem;
+}
+
+.no_card {
+    font-size: 14px;
+    padding: 0.28rem 0 0.5rem 0;
+    text-align: center;
+}
+
+.iconqiabao {
+    font-size: 60px;
+    text-align: center;
+    color: #C1C1C2;
+    line-height: 100%;
+}
+
+.my_card_btn {
+    width: 33%;
+    margin: 0.4rem auto 0.5rem auto;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 5px 0.4rem 0 rgba(71, 143, 226, 0.53);
+    border-radius: 10px;
+    background-color: #478FE2;
+    font-size: 15px;
+}
+
+.my_card_btn a {
+    display: inline-block;
+    padding: 0.1rem 0;
+    color: #fff;
+    width: 100%;
+    font-size: 15px;
+}
+
+.code_box {
+    width: 2.15rem;
+    height: 2.15rem;
+    margin: 0.7rem auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.refresh_box {
+    text-align: center;
+    color: #D2D2D2;
+    font-size: 12px;
+    padding: 0.25rem 0 0 0;
+}
+
+.refresh_box .iconfont {
+    color: #D2D2D2;
+    font-size: 12px;
+    margin: 0 10px 0 0;
+}
+
+.code_box img {
+    width: 100%;
+}
+
+/*我的卡*/
+.card_list {
+    padding: 0.31rem 0.25rem 0.5rem 0.25rem;
+    background-color: #fff;
+}
+
+.card_item {
+    background: #4986E4 linear-gradient(90deg, #2D76E6, #2D9CEC);
+    border-radius: 10px;
+    margin: 0 0 0.3rem 0;
+    color: #fff;
+    font-size: 13px;
+    padding: 0.4rem 0 0.4rem 0.5rem;
+    overflow: hidden;
+    position: relative;
+    display: block;
+}
+
+.card_address {
+    font-size: 13px;
+}
+
+.card_num {
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 15px;
+}
+
+.card_tips {
+    font-size: 12px;
+}
+
+.card_default {
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    display: none;
+}
+
+.card_default span {
+    background: #90CCF5;
+    font-size: 12px;
+    border-radius: 0.1rem 0 0.1rem 0;
+    padding: 0.05rem 0.25rem;
+    display: inline-block;
+}
+
+.card_btn {
+    position: absolute;
+    right: 0.21rem;
+    top: 0.31rem;
+    padding: 0.05rem 0;
+    width: 1.41rem;
+    text-align: center;
+    color: #2D97EC;
+    font-size: 12px;
+    background-color: #fff;
+    border-radius: 0.1rem;
+    /*display: none;*/
+}
+
+/*.card_item:first-child .card_btn {*/
+/*display: block;*/
+/*}*/
+
+.card_btn:active {
+    opacity: 0.7;
+}
+
+.card_add {
+
+}
+
+/*添加我的卡*/
+.add_box {
+    min-height: 97vh;
+    margin-bottom: 0;
+}
+
+.add_input {
+    display: flex;
+    align-items: center;
+    height: .7rem;
+    line-height: 0.7rem;
+    padding: 0 .38rem 0 .25rem;
+    margin: 0 0 .3rem 0;
+    color: #222;
+}
+
+.add_input input {
+    flex: 1;
+    background-color: #f8f8f8;
+    padding: 0 .15rem;
+    border-radius: .1rem;
+}
+
+.textarea {
+    align-items: inherit;
+    height: auto;
+}
+
+.textarea textarea {
+    height: 1.51rem;
+    flex: 1;
+    background-color: #f8f8f8;
+    padding: .15rem;
+    border-radius: .1rem;
+}
+
+.card_person {
+    display: block;
+    right: .2rem;
+    bottom: .45rem;
+    border-radius: .1rem;
+}
+
+.card_person span {
+    border-radius: .1rem;
+}
+
+.btn_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 .8rem;
+}
+
+.btn_item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: 15px;
+    color: #222;
+}
+.icon_box{
+    height: .8rem;
+    width: .8rem;
+    line-height: .8rem;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #478FE2;
+    color: #fff;
+    margin-bottom: .2rem;
+}

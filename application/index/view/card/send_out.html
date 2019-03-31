@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+    <script type="text/javascript" src="/static/assets/js/fontSize.min.js"></script>
+    <link rel="stylesheet" href="/static/assets/css/weui.min.css">
+    <link rel="stylesheet" href="/static/assets/fonts/iconfont.css">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <style>
+        .code_box {
+            width: 5rem;
+            height: 5rem;
+            margin: 1rem auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="card_box" style="padding-bottom: 1rem">
+
+    <div id="refresh" onclick="javascript:window.location.reload();">
+        <div class="code_box">
+            <img src="<?php echo $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/index/card/qrcode?card_no=' . urlencode($card_no);?>" alt="">
+        </div>
+        <div class="refresh_box"><span class="iconfont iconshuaxin"></span>点击刷新</div>
+        <div class="refresh_box" style="font-size: 20px">长按二维码转发</div>
+        <div class="refresh_box" id="timer" style="color: #000000;">05:00s后失效</div>
+    </div>
+
+</div>
+</body>
+</html>
+<script type="text/javascript" src="/static/assets/js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="/static/assets/js/jquery-weui.min.js"></script>
+<script type="text/javascript" src="/static/assets/js/common.js"></script>
+<script type="text/javascript">
+    function s_to_hs(s){
+        //计算分钟
+        //算法：将秒数除以60，然后下舍入，既得到分钟数
+        var h;
+        h  =   Math.floor(s/60);
+        //计算秒
+        //算法：取得秒%60的余数，既得到秒数
+        s  =   s%60;
+        //将变量转换为字符串
+        h    +=    '';
+        s    +=    '';
+        //如果只有一位数，前面增加一个0
+        h  =   (h.length==1)?'0'+h:h;
+        s  =   (s.length==1)?'0'+s:s;
+        return h+':'+s;
+    }
+
+    var count = 300;
+    var timer = setInterval(function(){
+        if(count > 0) {
+            count--;
+            document.getElementById("timer").innerHTML=s_to_hs(count)+'s后失效';
+        }else {
+            document.getElementById("timer").innerHTML='<span>已失效</span>';
+            window.clearInterval(timer)
+        }
+    },1000);
+
+</script>
